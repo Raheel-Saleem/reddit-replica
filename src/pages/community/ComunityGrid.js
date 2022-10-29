@@ -5,20 +5,6 @@ const ComunityGrid = () => {
     return (
         <>
             <Container>
-                {/* <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                    <Typography variant="h4" gutterBottom>
-                        Blog
-                    </Typography>
-                    <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-                        New Post
-                    </Button>
-                </Stack>
-
-                <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-                    <BlogPostsSearch posts={POSTS} />
-                    <BlogPostsSort options={SORT_OPTIONS} />
-                </Stack> */}
-
                 <Grid container spacing={3}>
                     {POST_TITLES.map((post, index) => (
                         <CommunityCard key={index} title={post} />

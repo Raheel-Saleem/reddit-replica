@@ -12,10 +12,10 @@ const SamplePage = Loadable(lazy(() => import('pages/extra-pages/SamplePage')));
 import ComunityGrid from 'pages/community/ComunityGrid';
 // render - utilities
 const Typography = Loadable(lazy(() => import('pages/components-overview/Typography')));
-const Color = Loadable(lazy(() => import('pages/components-overview/Color')));
-const Shadow = Loadable(lazy(() => import('pages/components-overview/Shadow')));
-const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons')));
 
+import CreateComunityForm from 'pages/community/CreateComunityForm';
+import PostGrid from 'pages/post/PostGrid';
+import CreatePostForm from 'pages/post/CreatePostForm';
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -26,34 +26,22 @@ const MainRoutes = {
             path: '/',
             element: <ComunityGrid />
         },
-        {
-            path: 'color',
-            element: <Color />
-        },
-        {
-            path: 'dashboard',
-            children: [
-                {
-                    path: 'default',
-                    element: <ComunityGrid />
-                }
-            ]
-        },
-        {
-            path: 'sample-page',
-            element: <SamplePage />
-        },
-        {
-            path: 'shadow',
-            element: <Shadow />
-        },
+
         {
             path: 'communities',
             element: <ComunityGrid />
         },
         {
-            path: 'icons/ant',
-            element: <AntIcons />
+            path: 'createcommunity',
+            element: <CreateComunityForm />
+        },
+        {
+            path: 'post-card',
+            element: <PostGrid />
+        },
+        {
+            path: 'createpost',
+            element: <CreatePostForm />
         }
     ]
 };

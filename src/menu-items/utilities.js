@@ -27,10 +27,31 @@ const utilities = {
     type: 'group',
     children: [
         {
-            id: 'util-typography',
+            id: 'community-form',
+            title: 'Create Community',
+            type: 'item',
+            url: '/createcommunity',
+            icon: AppstoreAddOutlined
+        },
+        {
+            id: 'create-post-card',
+            title: 'Create Post',
+            type: 'item',
+            url: '/createpost',
+            icon: AppstoreAddOutlined
+        },
+        {
+            id: 'communities',
             title: 'Communities',
             type: 'item',
             url: '/communities',
+            icon: LanguageIcon
+        },
+        {
+            id: 'post-card',
+            title: 'Posts',
+            type: 'item',
+            url: '/post-card',
             icon: LanguageIcon
         }
     ]

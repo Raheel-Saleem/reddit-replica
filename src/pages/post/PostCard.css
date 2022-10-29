@@ -1,0 +1,104 @@
+.parent-div {
+    width: 640px;
+    margin: 30px auto;
+    position: relative;
+    background-color: #ffffff;
+    box-shadow: 0 3px 10px rgba(199, 196, 196, 0.2);
+    border-radius: 4px;
+}
+/* Up and Down vote */
+.vote-div {
+    width: 40px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 4px 8px 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #e6eae4;
+    height: 100%;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+.votes-num {
+    align-self: center;
+}
+.author-topic-div {
+    position: relative;
+    left: 45px;
+    padding: 8px 0;
+    margin-left: 4px;
+}
+.author-div {
+    font-size: 12px;
+    color: #787c7e;
+    margin-bottom: 10px;
+}
+/* Topic name and details */
+.topic-div {
+    width: 570px;
+    word-break: keep-all;
+    margin-bottom: 30px;
+}
+.topic-name {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+.topic-detail {
+    font-size: 14px;
+}
+/* comment and save button div */
+.com-save-div {
+    display: flex;
+    align-items: center;
+    color: #878a8c;
+    width: 590px;
+
+    margin-bottom: 3px;
+}
+.comm-but-div {
+    align-self: center;
+    display: flex;
+}
+.comm-icon {
+    margin-bottom: -5px;
+}
+.save-but-div {
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    margin-left: 30px;
+}
+.save-icon {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+.community-but-div {
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    margin-left: 30px;
+}
+.community-icon {
+    margin-bottom: -5px;
+}
+/* all icons */
+.icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+button {
+    background: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 8px;
+}
+button:hover {
+    background-color: #e4e7e8;
+    border-radius: 4px;
+}
