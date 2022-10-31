@@ -129,7 +129,7 @@ const AuthRegister = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="company-signup">Company</InputLabel>
+                                    <InputLabel htmlFor="company-signup">UserId</InputLabel>
                                     <OutlinedInput
                                         fullWidth
                                         error={Boolean(touched.company && errors.company)}
