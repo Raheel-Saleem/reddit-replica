@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 // material-ui
 import {
@@ -21,44 +21,35 @@ import {
 // third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-
+import { useSelector, useDispatch } from 'react-redux';
 // project import
 import FirebaseSocial from './FirebaseSocial';
 import AnimateButton from 'components/@extended/AnimateButton';
-
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
-
+import { authVerification } from 'utils/apis';
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthVerification = () => {
-    const [checked, setChecked] = React.useState(false);
-
-    const [showPassword, setShowPassword] = React.useState(false);
-    const handleClickShowPassword = () => {
-        setShowPassword(!showPassword);
-    };
-
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
-
+    const email = useSelector((state) => state.auth.email);
+    const dispatch = useDispatch();
+    const nevigate = useNavigate();
     return (
         <>
             <Formik
                 initialValues={{
-                    email: 'info@codedthemes.com',
-                    password: '123456',
-                    submit: null
+                    email: email,
+                    code: ''
                 }}
                 validationSchema={Yup.object().shape({
                     email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    password: Yup.string().max(255).required('Password is required')
+                    code: Yup.string().max(255).required('Code is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        setStatus({ success: false });
-                        setSubmitting(false);
+                        setStatus({ success: true });
+                        setSubmitting(true);
+                        await authVerification(values, dispatch, nevigate);
                     } catch (err) {
                         setStatus({ success: false });
                         setErrors({ submit: err.message });
@@ -71,9 +62,9 @@ const AuthVerification = () => {
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="email-login">Email Address</InputLabel>
+                                    <InputLabel htmlFor="email-verification">Email Address</InputLabel>
                                     <OutlinedInput
-                                        id="email-login"
+                                        id="email-verification"
                                         type="email"
                                         value={values.email}
                                         name="email"
@@ -94,19 +85,19 @@ const AuthVerification = () => {
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="email-login">Code</InputLabel>
                                     <OutlinedInput
-                                        id="email-login"
-                                        type="email"
-                                        value={values.email}
-                                        name="email"
+                                        id="code"
+                                        type="text"
+                                        value={values.code}
+                                        name="code"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        placeholder="Enter email address"
+                                        placeholder="Enter verification code"
                                         fullWidth
-                                        error={Boolean(touched.email && errors.email)}
+                                        error={Boolean(touched.code && errors.code)}
                                     />
-                                    {touched.email && errors.email && (
-                                        <FormHelperText error id="standard-weight-helper-text-email-login">
-                                            {errors.email}
+                                    {touched.code && errors.code && (
+                                        <FormHelperText error id="standard-weight-helper-text-code">
+                                            {errors.code}
                                         </FormHelperText>
                                     )}
                                 </Stack>

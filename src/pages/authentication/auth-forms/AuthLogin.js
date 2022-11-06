@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 // material-ui
 import {
@@ -28,11 +28,16 @@ import AnimateButton from 'components/@extended/AnimateButton';
 
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import { doLogin } from 'utils/apis';
+import { useDispatch } from 'react-redux';
+import { startLoading, stopLoading } from 'store/reducers/loader';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
     const [checked, setChecked] = React.useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => {
@@ -47,22 +52,30 @@ const AuthLogin = () => {
         <>
             <Formik
                 initialValues={{
-                    email: 'info@codedthemes.com',
-                    password: '123456',
-                    submit: null
+                    email: '',
+                    password: ''
                 }}
                 validationSchema={Yup.object().shape({
                     email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
                     password: Yup.string().max(255).required('Password is required')
                 })}
-                onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+                onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
                     try {
-                        setStatus({ success: false });
-                        setSubmitting(false);
+                        dispatch(startLoading());
+                        await doLogin(values, dispatch, navigate);
+                        setStatus({ success: true });
+                        setSubmitting(true);
+                        resetForm({
+                            values: {
+                                email: '',
+                                password: ''
+                            }
+                        });
                     } catch (err) {
                         setStatus({ success: false });
                         setErrors({ submit: err.message });
                         setSubmitting(false);
+                        dispatch(stopLoading());
                     }
                 }}
             >

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useRef, useState } from 'react';
-
+import { useDispatch } from 'react-redux';
+import { useNavigate } from '../../../../../../node_modules/react-router-dom/dist/index';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -24,7 +25,8 @@ import MainCard from 'components/MainCard';
 import Transitions from 'components/@extended/Transitions';
 import ProfileTab from './ProfileTab';
 import SettingTab from './SettingTab';
-
+import { useSelector } from 'react-redux';
+import { onLogout } from 'store/reducers/auth';
 // assets
 import avatar1 from 'assets/images/users/avatar-1.png';
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
@@ -55,9 +57,12 @@ function a11yProps(index) {
 
 const Profile = () => {
     const theme = useTheme();
-
+    const nevigate = useNavigate();
+    let username = useSelector((state) => state.auth.username);
+    const dispatch = useDispatch();
     const handleLogout = async () => {
-        // logout
+        dispatch(onLogout());
+        nevigate('/');
     };
 
     const anchorRef = useRef(null);
@@ -98,9 +103,9 @@ const Profile = () => {
             >
                 <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
                     <Avatar src="." sx={{ width: 32, height: 32 }}>
-                        R
+                        {username && Array.from(username)[0].toUpperCase()}
                     </Avatar>
-                    <Typography variant="subtitle1">John Doe</Typography>
+                    <Typography variant="subtitle1">{username.toUpperCase()}</Typography>
                 </Stack>
             </ButtonBase>
             <Popper
