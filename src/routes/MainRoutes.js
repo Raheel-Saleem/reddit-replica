@@ -16,6 +16,8 @@ const Typography = Loadable(lazy(() => import('pages/components-overview/Typogra
 import CreateComunityForm from 'pages/community/CreateComunityForm';
 import PostGrid from 'pages/post/PostGrid';
 import CreatePostForm from 'pages/post/CreatePostForm';
+const SubscribedCommunites = Loadable(lazy(() => import('./../pages/community/SubscribedCommunites')));
+
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -42,6 +44,10 @@ const MainRoutes = {
         {
             path: 'createpost',
             element: <CreatePostForm />
+        },
+        {
+            path: 'subscribed-comunities',
+            element: <SubscribedCommunites />
         }
     ]
 };

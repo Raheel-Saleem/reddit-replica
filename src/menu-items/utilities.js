@@ -53,6 +53,13 @@ const utilities = {
             type: 'item',
             url: '/post-card',
             icon: LanguageIcon
+        },
+        {
+            id: 'sub-cumunity',
+            title: 'Subscribed Communities',
+            type: 'item',
+            url: '/subscribed-comunities',
+            icon: LanguageIcon
         }
     ]
 };

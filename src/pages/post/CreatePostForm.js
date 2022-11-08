@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-
+import { useSelector, useDispatch } from 'react-redux';
 import {
     Box,
     Button,
@@ -24,30 +24,60 @@ import { Formik } from 'formik';
 import MainCard from 'components/MainCard';
 import AnimateButton from '../../components/@extended/AnimateButton';
 import AutoCompleteComuintiy from './AutoCompleteComuintiy';
+import { openAlert } from 'store/reducers/alert';
+import { SUCCESS, ERROR, INFO, WARNING } from 'utils/alertTypes';
+import { createPost } from 'utils/apis';
 // ================================|| REGISTER ||================================ //
 
 const Form = () => {
+    const user_id = useSelector((state) => state.auth.user_id);
+    const dispatch = useDispatch();
+    const [selectedComunity, setSelectedComunity] = useState(null);
+    const validateCreatePost = async (values, resetForm) => {
+        if (!selectedComunity) {
+            dispatch(openAlert({ open: true, type: ERROR, msg: 'Please select community' }));
+            return;
+        }
+        let payload = {};
+        payload.user_id = user_id;
+        payload.community_id = selectedComunity.community_id;
+        payload = {
+            ...payload,
+            ...values
+        };
+
+        const response = await createPost(payload, dispatch);
+        if (response) {
+            resetForm({
+                values: {
+                    post_name: '',
+                    description: ''
+                }
+            });
+            setSelectedComunity(null);
+        }
+    };
+
+    useEffect(() => {
+        console.log('selectedComunity: ', selectedComunity);
+    }, [selectedComunity]);
     return (
         <>
             <Formik
                 initialValues={{
-                    firstname: '',
-                    lastname: '',
-                    email: '',
-                    company: '',
-                    password: '',
-                    submit: null
+                    post_name: '',
+                    description: ''
                 }}
                 validationSchema={Yup.object().shape({
-                    firstname: Yup.string().max(255).required('Title  is required'),
-                    lastname: Yup.string().max(255).required('Post contents  is required'),
-                    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    password: Yup.string().max(255).required('Password is required')
+                    post_name: Yup.string().max(255).required('Post title  is required'),
+                    description: Yup.string().max(255).required('Description is required')
                 })}
-                onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+                onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
                     try {
-                        setStatus({ success: false });
-                        setSubmitting(false);
+                        // console.log('values: ', values);
+                        validateCreatePost(values, resetForm);
+                        setStatus({ success: true });
+                        setSubmitting(true);
                     } catch (err) {
                         console.error(err);
                         setStatus({ success: false });
@@ -63,27 +93,31 @@ const Form = () => {
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="firstname-signup">Select Community*</InputLabel>
 
-                                    <AutoCompleteComuintiy />
+                                    <AutoCompleteComuintiy
+                                        user_id={user_id}
+                                        dispatch={dispatch}
+                                        selectedComunity={selectedComunity}
+                                        setSelectedComunity={setSelectedComunity}
+                                    />
                                 </Stack>
                             </Grid>
 
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="firstname-signup">Title*</InputLabel>
+                                    <InputLabel htmlFor="post_name">Title*</InputLabel>
                                     <OutlinedInput
-                                        id="firstname-login"
-                                        type="firstname"
-                                        value={values.firstname}
-                                        name="firstname"
+                                        id="post_name_id"
+                                        type="post_name"
+                                        value={values.post_name}
+                                        name="post_name"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        placeholder="John"
                                         fullWidth
-                                        error={Boolean(touched.firstname && errors.firstname)}
+                                        error={Boolean(touched.post_name && errors.post_name)}
                                     />
-                                    {touched.firstname && errors.firstname && (
-                                        <FormHelperText error id="helper-text-firstname-signup">
-                                            {errors.firstname}
+                                    {touched.post_name && errors.post_name && (
+                                        <FormHelperText error id="helper-text-post_name">
+                                            {errors.post_name}
                                         </FormHelperText>
                                     )}
                                 </Stack>
@@ -91,23 +125,22 @@ const Form = () => {
 
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="email-signup">Description*</InputLabel>
+                                    <InputLabel htmlFor="description">Description*</InputLabel>
                                     <OutlinedInput
                                         fullWidth
-                                        error={Boolean(touched.email && errors.email)}
-                                        id="email-login"
+                                        error={Boolean(touched.description && errors.description)}
+                                        id="description"
                                         multiline
                                         rows={4}
-                                        value={values.email}
-                                        name="email"
+                                        value={values.description}
+                                        name="description"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        placeholder="demo@company.com"
                                         inputProps={{}}
                                     />
-                                    {touched.email && errors.email && (
-                                        <FormHelperText error id="helper-text-email-signup">
-                                            {errors.email}
+                                    {touched.description && errors.description && (
+                                        <FormHelperText error id="helper-text-description-signup">
+                                            {errors.description}
                                         </FormHelperText>
                                     )}
                                 </Stack>

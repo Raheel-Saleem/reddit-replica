@@ -23,31 +23,41 @@ import { Formik } from 'formik';
 
 import MainCard from 'components/MainCard';
 import AnimateButton from '../../components/@extended/AnimateButton';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { createComunity } from 'utils/apis';
+import { startLoading } from 'store/reducers/loader';
 // ================================|| REGISTER ||================================ //
 
 const Form = () => {
+    const userId = useSelector((state) => state.auth.user_id);
+    const dispatch = useDispatch();
+
     return (
         <>
             <Formik
                 initialValues={{
-                    firstname: '',
-                    lastname: '',
-                    email: '',
-                    company: '',
-                    password: '',
-                    submit: null
+                    user_id: userId,
+                    community_name: '',
+                    description: ''
                 }}
                 validationSchema={Yup.object().shape({
-                    firstname: Yup.string().max(255).required('Community Name  is required'),
-                    lastname: Yup.string().max(255).required('Last Name is required'),
-                    email: Yup.string().email('Must be a valid email').max(255).required('Description is required'),
-                    password: Yup.string().max(255).required('Password is required')
+                    user_id: Yup.string().max(255).required('UserId is required'),
+                    community_name: Yup.string().max(255).required('Community name is required'),
+                    description: Yup.string().max(255).required('Description is required')
                 })}
-                onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+                onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
                     try {
-                        setStatus({ success: false });
-                        setSubmitting(false);
+                        dispatch(startLoading());
+                        createComunity(values, dispatch);
+                        setStatus({ success: true });
+                        setSubmitting(true);
+                        resetForm({
+                            values: {
+                                user_id: userId,
+                                community_name: '',
+                                description: ''
+                            }
+                        });
                     } catch (err) {
                         console.error(err);
                         setStatus({ success: false });
@@ -63,19 +73,19 @@ const Form = () => {
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="firstname-signup">Community Name*</InputLabel>
                                     <OutlinedInput
-                                        id="firstname-login"
-                                        type="firstname"
-                                        value={values.firstname}
-                                        name="firstname"
+                                        id="community_name"
+                                        type="text"
+                                        value={values.community_name}
+                                        name="community_name"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        placeholder="John"
+                                        placeholder=""
                                         fullWidth
-                                        error={Boolean(touched.firstname && errors.firstname)}
+                                        error={Boolean(touched.community_name && errors.community_name)}
                                     />
                                     {touched.firstname && errors.firstname && (
-                                        <FormHelperText error id="helper-text-firstname-signup">
-                                            {errors.firstname}
+                                        <FormHelperText error id="helper-text-community_name">
+                                            {errors.community_name}
                                         </FormHelperText>
                                     )}
                                 </Stack>
@@ -86,20 +96,20 @@ const Form = () => {
                                     <InputLabel htmlFor="email-signup">Description*</InputLabel>
                                     <OutlinedInput
                                         fullWidth
-                                        error={Boolean(touched.email && errors.email)}
-                                        id="email-login"
+                                        error={Boolean(touched.description && errors.description)}
+                                        id="description"
                                         multiline
                                         rows={4}
-                                        value={values.email}
-                                        name="email"
+                                        value={values.description}
+                                        name="description"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        placeholder="demo@company.com"
+                                        placeholder="Describe about community...."
                                         inputProps={{}}
                                     />
-                                    {touched.email && errors.email && (
-                                        <FormHelperText error id="helper-text-email-signup">
-                                            {errors.email}
+                                    {touched.description && errors.description && (
+                                        <FormHelperText error id="helper-text-description-signup">
+                                            {errors.description}
                                         </FormHelperText>
                                     )}
                                 </Stack>

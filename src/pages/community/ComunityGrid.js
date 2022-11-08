@@ -1,16 +1,35 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 import CommunityCard from './ComunityCard';
+import { getAllCommunities } from 'utils/apis';
+import { useDispatch } from 'react-redux';
+import { startLoading, stopLoading } from 'store/reducers/loader';
+import NoDataFound from 'pages/extra-pages/NoDataFound';
 const ComunityGrid = () => {
+    const [comunities, setComunities] = useState([]);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        (async function () {
+            dispatch(startLoading());
+            const result = await getAllCommunities(dispatch);
+            console.log('result: ', result);
+            result && setComunities(result);
+            dispatch(stopLoading());
+        })();
+    }, [dispatch]);
     return (
         <>
-            <Container>
-                <Grid container spacing={3}>
-                    {POST_TITLES.map((post, index) => (
-                        <CommunityCard key={index} title={post} />
-                    ))}
-                </Grid>
-            </Container>
+            {comunities.length == 0 ? (
+                <NoDataFound type={'communities'} link={'/createcommunity'} desc="Click here to create one" />
+            ) : (
+                <Container>
+                    <Grid container spacing={3}>
+                        {comunities.map((comunity, index) => (
+                            <CommunityCard key={index} comunity={comunity} />
+                        ))}
+                    </Grid>
+                </Container>
+            )}
         </>
     );
 };

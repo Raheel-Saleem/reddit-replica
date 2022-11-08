@@ -1,20 +1,20 @@
-import * as React from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
-
+import { getSubscribedComunityForAutocomplete } from '../../utils/apis';
 function sleep(delay = 0) {
     return new Promise((resolve) => {
         setTimeout(resolve, delay);
     });
 }
 
-export default function AutoCompleteComuintiy() {
-    const [open, setOpen] = React.useState(false);
-    const [options, setOptions] = React.useState([]);
-    const loading = open && options.length === 0;
+export default function AutoCompleteComuintiy({ user_id, dispatch, setSelectedComunity, selectedComunity }) {
+    const [open, setOpen] = useState(false);
+    const [options, setOptions] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-    React.useEffect(() => {
+    useEffect(() => {
         let active = true;
 
         if (!loading) {
@@ -22,10 +22,13 @@ export default function AutoCompleteComuintiy() {
         }
 
         (async () => {
-            await sleep(1e3); // For demo purposes.
-
-            if (active) {
-                setOptions([...topFilms]);
+            const result = await getSubscribedComunityForAutocomplete({ user_id }, dispatch); // For demo purposes.
+            if (result && result.length > 0) {
+                setOptions([...result]);
+                setLoading(false);
+            } else {
+                setLoading(false);
+                setOptions([]);
             }
         })();
 
@@ -34,7 +37,7 @@ export default function AutoCompleteComuintiy() {
         };
     }, [loading]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!open) {
             setOptions([]);
         }
@@ -47,14 +50,17 @@ export default function AutoCompleteComuintiy() {
             open={open}
             onOpen={() => {
                 setOpen(true);
+                setLoading(true);
             }}
             onClose={() => {
                 setOpen(false);
             }}
-            isOptionEqualToValue={(option, value) => option.title === value.title}
-            getOptionLabel={(option) => option.title}
+            isOptionEqualToValue={(option, value) => option.community_name === value.community_name}
+            getOptionLabel={(option) => option.community_name}
             options={options}
             loading={loading}
+            value={selectedComunity}
+            onChange={(event, value) => setSelectedComunity(value)}
             renderInput={(params) => (
                 <TextField
                     {...params}
@@ -62,10 +68,10 @@ export default function AutoCompleteComuintiy() {
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (
-                            <React.Fragment>
+                            <Fragment>
                                 {loading ? <CircularProgress color="inherit" size={20} /> : null}
                                 {params.InputProps.endAdornment}
-                            </React.Fragment>
+                            </Fragment>
                         )
                     }}
                 />
