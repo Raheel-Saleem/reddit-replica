@@ -19,7 +19,7 @@ const PostGrid = () => {
             result && setPosts(result);
             dispatch(stopLoading());
         })();
-    }, [dispatch, userId]);
+    }, []);
     return (
         <>
             {posts.length == 0 ? (

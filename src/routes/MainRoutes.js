@@ -17,7 +17,7 @@ import CreateComunityForm from 'pages/community/CreateComunityForm';
 import PostGrid from 'pages/post/PostGrid';
 import CreatePostForm from 'pages/post/CreatePostForm';
 const SubscribedCommunites = Loadable(lazy(() => import('./../pages/community/SubscribedCommunites')));
-
+import Comment from 'pages/comments/Comment';
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -48,6 +48,10 @@ const MainRoutes = {
         {
             path: 'subscribed-comunities',
             element: <SubscribedCommunites />
+        },
+        {
+            path: 'comments',
+            element: <Comment />
         }
     ]
 };

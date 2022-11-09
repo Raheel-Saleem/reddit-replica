@@ -60,6 +60,13 @@ const utilities = {
             type: 'item',
             url: '/subscribed-comunities',
             icon: LanguageIcon
+        },
+        {
+            id: 'comment',
+            title: 'Coments',
+            type: 'item',
+            url: '/comments',
+            icon: LanguageIcon
         }
     ]
 };
