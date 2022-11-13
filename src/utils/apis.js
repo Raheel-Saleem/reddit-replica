@@ -265,3 +265,23 @@ export async function getAllComment(payload) {
         return false;
     }
 }
+
+export async function likePost(payload, dispatch) {
+    try {
+        dispatch(startLoading());
+        const result = await server.post('like_post', payload);
+        console.log('result: ', result);
+        dispatch(stopLoading());
+        if (result.status == 200) {
+            dispatch(openAlert({ open: true, type: SUCCESS, msg: 'You liked this post' }));
+        }
+        return result?.data.total_likes;
+    } catch (error) {
+        console.log('error: ', error);
+        dispatch(stopLoading());
+        error
+            ? dispatch(openAlert({ open: true, type: ERROR, msg: error.response.data.msg }))
+            : dispatch(openAlert({ open: true, type: ERROR, msg: 'Internal Error' }));
+        return false;
+    }
+}

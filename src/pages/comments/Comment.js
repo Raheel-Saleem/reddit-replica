@@ -64,7 +64,7 @@ const Comment = () => {
                         <div key={index}>
                             <div>
                                 <div style={{ marginBottom: 10 }}>
-                                    <span className="author-name">{comment.username.toUpperCase()}</span>
+                                    <span className="author-name">{comment.username} </span>
                                     <span className="dot" />
                                     <span className="upload-time"> {new Date(comment.comment_time).toDateString()}</span>
                                 </div>

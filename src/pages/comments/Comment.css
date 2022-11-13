@@ -1,11 +1,13 @@
 .container {
-    max-width: 760px;
+    max-width: 640px;
     flex-basis: auto;
     /* remove line 12, 13 and 14 while linking with other page  */
     margin: 0 auto;
     background-color: #ffffff;
     font-family: 'Roboto', sans-serif;
     padding: 25px;
+    box-shadow: 0 3px 10px rgb(199 196 196 / 20%);
+    border-radius: 4px;
 }
 .comment-input-container {
     margin-bottom: 20px;

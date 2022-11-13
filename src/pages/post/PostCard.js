@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import './PostCard.css';
 import ArrowDown from 'assets/images/icons/down-arrow.svg';
 import Save from 'assets/images/icons/save.svg';
@@ -12,25 +12,35 @@ import { savePost } from 'utils/apis';
 import { useNavigate } from 'react-router-dom';
 import { selectedPost } from 'store/reducers/post';
 import { useDispatch } from 'react-redux';
+import { likePost } from 'utils/apis';
+
 const PostCard = ({ post = {}, userId, dispatch }) => {
     const navigate = useNavigate();
 
     let { community_name, description, post_id, post_name, posted_time, username, total_likes } = post;
+    const [like, setLike] = useState(total_likes);
+
     function handleComment(post) {
         dispatch(selectedPost(post));
         navigate('/comments', { replace: true });
+    }
+    async function handleLike() {
+        let res = await likePost({ post_id: post_id, user_id: userId }, dispatch);
+        if (res) {
+            setLike(res);
+        }
     }
 
     return (
         <div class="parent-div" key={post_id}>
             <div class="vote-div">
-                <button>
+                <button onClick={handleLike}>
                     <img src={ArrowUp} alt="Up vote" class="icon" />
                 </button>
-                <div class="votes-num">{total_likes}</div>
-                <button>
+                <div class="votes-num">{like}</div>
+                {/* <button>
                     <img src={ArrowDown} alt="Down vote" class="icon" />
-                </button>
+                </button> */}
             </div>
             {/* <!-- author and time  --> */}
             <div class="author-topic-div">

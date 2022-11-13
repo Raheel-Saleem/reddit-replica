@@ -18,7 +18,7 @@ export default function CommunityCard({ comunity }) {
     return (
         <Grid item xs={12} sm={12} md={4}>
             <Box sx={{ position: 'relative' }}>
-                <Card sx={{ minHeight: 300, maxHeight: 350 }} key={community_id}>
+                <Card sx={{ minHeight: 250, maxHeight: 350 }} key={community_id}>
                     <CardHeader
                         avatar={
                             <Avatar sx={{ bgcolor: 'primary.light' }} aria-label="recipe">
@@ -26,7 +26,7 @@ export default function CommunityCard({ comunity }) {
                             </Avatar>
                         }
                         title={community_name}
-                        subheader="September 14, 2016"
+                        // subheader="September 14, 2016"
                     />
                     {/* <CardMedia component="img" height="194" image="/static/images/cards/paella.jpg" alt="Paella dish" /> */}
 
@@ -36,7 +36,7 @@ export default function CommunityCard({ comunity }) {
                         </Typography>
                     </CardContent>
 
-                    <Box sx={{ position: 'absolute', bottom: 0 }}>
+                    <Box sx={{ position: 'absolute', bottom: '10px' }}>
                         <CardActions>
                             <Chip
                                 variant="filled"

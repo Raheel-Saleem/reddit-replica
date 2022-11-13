@@ -26,20 +26,20 @@ const utilities = {
     title: 'SUBSCRIPTIONS',
     type: 'group',
     children: [
-        {
-            id: 'community-form',
-            title: 'Create Community',
-            type: 'item',
-            url: '/createcommunity',
-            icon: AppstoreAddOutlined
-        },
-        {
-            id: 'create-post-card',
-            title: 'Create Post',
-            type: 'item',
-            url: '/createpost',
-            icon: AppstoreAddOutlined
-        },
+        // {
+        //     id: 'community-form',
+        //     title: 'Create Community',
+        //     type: 'item',
+        //     url: '/createcommunity',
+        //     icon: AppstoreAddOutlined
+        // },
+        // {
+        //     id: 'create-post-card',
+        //     title: 'Create Post',
+        //     type: 'item',
+        //     url: '/createpost',
+        //     icon: AppstoreAddOutlined
+        // },
         {
             id: 'communities',
             title: 'Communities',
@@ -59,13 +59,6 @@ const utilities = {
             title: 'Subscribed Communities',
             type: 'item',
             url: '/subscribed-comunities',
-            icon: LanguageIcon
-        },
-        {
-            id: 'comment',
-            title: 'Coments',
-            type: 'item',
-            url: '/comments',
             icon: LanguageIcon
         }
     ]
