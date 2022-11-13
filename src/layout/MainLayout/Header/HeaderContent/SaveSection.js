@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-
+import { Link } from 'react-router-dom';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -69,20 +69,22 @@ const SaveSection = () => {
 
     return (
         <Box sx={{ flexShrink: 0, ml: 0.75 }}>
-            <IconButton
-                disableRipple
-                color="secondary"
-                sx={{ color: 'text.primary', bgcolor: open ? iconBackColorOpen : iconBackColor }}
-                aria-label="open profile"
-                ref={anchorRef}
-                aria-controls={open ? 'profile-grow' : undefined}
-                aria-haspopup="true"
-                onClick={handleToggle}
-            >
-                <Badge color="primary">
-                    <BookmarkBorderIcon />
-                </Badge>
-            </IconButton>
+            <Link to="saved-post">
+                <IconButton
+                    disableRipple
+                    color="secondary"
+                    sx={{ color: 'text.primary', bgcolor: open ? iconBackColorOpen : iconBackColor }}
+                    aria-label="open profile"
+                    ref={anchorRef}
+                    aria-controls={open ? 'profile-grow' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                >
+                    <Badge color="primary">
+                        <BookmarkBorderIcon />
+                    </Badge>
+                </IconButton>
+            </Link>
         </Box>
     );
 };

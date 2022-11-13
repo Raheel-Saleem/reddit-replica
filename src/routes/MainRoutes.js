@@ -42,6 +42,10 @@ const MainRoutes = {
             element: <PostGrid />
         },
         {
+            path: 'saved-post',
+            element: <PostGrid />
+        },
+        {
             path: 'createpost',
             element: <CreatePostForm />
         },

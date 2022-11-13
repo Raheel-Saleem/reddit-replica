@@ -17,36 +17,40 @@ export default function CommunityCard({ comunity }) {
     const dispatch = useDispatch();
     return (
         <Grid item xs={12} sm={12} md={4}>
-            <Card key={community_id}>
-                <CardHeader
-                    avatar={
-                        <Avatar sx={{ bgcolor: 'primary.light' }} aria-label="recipe">
-                            {community_name.charAt(0)}
-                        </Avatar>
-                    }
-                    title={community_name}
-                    subheader="September 14, 2016"
-                />
-                {/* <CardMedia component="img" height="194" image="/static/images/cards/paella.jpg" alt="Paella dish" /> */}
-
-                <CardContent>
-                    <Typography variant="body2" color="text.secondary">
-                        {description}
-                    </Typography>
-                </CardContent>
-
-                <CardActions>
-                    <Chip
-                        variant="filled"
-                        color={'error'}
-                        icon={<LoupeIcon />}
-                        label={'Subscribe'}
-                        sx={{ ml: 1.25, pl: 1 }}
-                        size="small"
-                        onClick={() => subscribeComunity({ community_id, user_id }, dispatch)}
+            <Box sx={{ position: 'relative' }}>
+                <Card sx={{ minHeight: 300, maxHeight: 350 }} key={community_id}>
+                    <CardHeader
+                        avatar={
+                            <Avatar sx={{ bgcolor: 'primary.light' }} aria-label="recipe">
+                                {community_name.charAt(0)}
+                            </Avatar>
+                        }
+                        title={community_name}
+                        subheader="September 14, 2016"
                     />
-                </CardActions>
-            </Card>
+                    {/* <CardMedia component="img" height="194" image="/static/images/cards/paella.jpg" alt="Paella dish" /> */}
+
+                    <CardContent>
+                        <Typography variant="body2" color="text.secondary">
+                            {description}
+                        </Typography>
+                    </CardContent>
+
+                    <Box sx={{ position: 'absolute', bottom: 0 }}>
+                        <CardActions>
+                            <Chip
+                                variant="filled"
+                                color={'error'}
+                                icon={<LoupeIcon />}
+                                label={'Subscribe'}
+                                sx={{ ml: 1.25, pl: 1 }}
+                                size="small"
+                                onClick={() => subscribeComunity({ community_id, user_id }, dispatch)}
+                            />
+                        </CardActions>
+                    </Box>
+                </Card>
+            </Box>
         </Grid>
     );
 }
