@@ -285,3 +285,22 @@ export async function likePost(payload, dispatch) {
         return false;
     }
 }
+export async function disLikePost(payload, dispatch) {
+    try {
+        dispatch(startLoading());
+        const result = await server.post('dislike', payload);
+        console.log('result: ', result);
+        dispatch(stopLoading());
+        if (result.status == 200) {
+            dispatch(openAlert({ open: true, type: SUCCESS, msg: 'You disliked this post' }));
+        }
+        return result?.data.total_likes;
+    } catch (error) {
+        console.log('error: ', error);
+        dispatch(stopLoading());
+        error
+            ? dispatch(openAlert({ open: true, type: ERROR, msg: error.response.data.msg }))
+            : dispatch(openAlert({ open: true, type: ERROR, msg: 'Internal Error' }));
+        return false;
+    }
+}

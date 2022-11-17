@@ -12,7 +12,7 @@ import { savePost } from 'utils/apis';
 import { useNavigate } from 'react-router-dom';
 import { selectedPost } from 'store/reducers/post';
 import { useDispatch } from 'react-redux';
-import { likePost } from 'utils/apis';
+import { likePost, disLikePost } from 'utils/apis';
 
 const PostCard = ({ post = {}, userId, dispatch }) => {
     const navigate = useNavigate();
@@ -30,6 +30,12 @@ const PostCard = ({ post = {}, userId, dispatch }) => {
             setLike(res);
         }
     }
+    async function handleDislike() {
+        let res = await disLikePost({ post_id: post_id, user_id: userId }, dispatch);
+        if (res) {
+            setLike(res);
+        }
+    }
 
     return (
         <div class="parent-div" key={post_id}>
@@ -38,9 +44,9 @@ const PostCard = ({ post = {}, userId, dispatch }) => {
                     <img src={ArrowUp} alt="Up vote" class="icon" />
                 </button>
                 <div class="votes-num">{like}</div>
-                {/* <button>
+                <button onClick={handleDislike}>
                     <img src={ArrowDown} alt="Down vote" class="icon" />
-                </button> */}
+                </button>
             </div>
             {/* <!-- author and time  --> */}
             <div class="author-topic-div">
